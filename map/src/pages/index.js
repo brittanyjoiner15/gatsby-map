@@ -6,6 +6,8 @@ import Layout from "components/Layout";
 import Container from "components/Container";
 import Map from "components/Map";
 
+import axios from "axios";
+
 const LOCATION = {
   lat: 38.9072,
   lng: -77.0369
@@ -20,7 +22,19 @@ const IndexPage = () => {
    * @example Here this is and example of being used to zoom in and set a popup on load
    */
 
-  async function mapEffect({ leafletElement: map } = {}) {}
+  async function mapEffect({ leafletElement: map } = {}) {
+    let response;
+
+    try {
+      response = await axios.get("https://corona.lmao.ninja/countries");
+    } catch (e) {
+      console.log(`Failed to fetch countries: ${e.message}`, e);
+      return;
+    }
+
+    const { data = [] } = response;
+    console.log("response", response);
+  }
 
   const mapSettings = {
     center: CENTER,
